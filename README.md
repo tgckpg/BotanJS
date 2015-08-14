@@ -22,17 +22,13 @@ A working concept of Js/Css framework for web browsers
 - pip install redis
 - pip install compressinja
 
-#### Environment varialbles
+### Before start, run
 ```
-PYTHONPATH=<path to the parent of this directory>
-```
-
-#### For the compressor & cache, run:
-```
-celery -A botanjs.service.jwork worker
+./botan-rebuild
 ```
 
-#### For the API Serivces, run:
+#### To start just run ( need to be root )
+Don't worry, this will immediately drop root permission and switch to the user defined in settings.ini
 ```
-./service/webapi.py
+./botan-start
 ```
