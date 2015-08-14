@@ -1,6 +1,9 @@
 # BotanJS
 A working concept of Js/Css framework for web browsers
 
+### Showcase
+- Pending
+
 ### Features
 - Compressable by Closure Compiler (Advanced Compression)
 - Python-like, class oriented syntax structure
