@@ -1,5 +1,5 @@
 # BotanJS
-A working concept of JS framework for webbrowsers
+A working concept of Js/Css framework for web browsers
 
 ### Features
 - Compressable by Closure Compiler (Advanced Compression)
