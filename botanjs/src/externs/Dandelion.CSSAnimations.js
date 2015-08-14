@@ -1,0 +1,2 @@
+/** @constructor */
+Dandelion.CSSAnimations = function (){};

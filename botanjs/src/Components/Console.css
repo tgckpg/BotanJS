@@ -1,0 +1,71 @@
+.dbg_statusbar {
+}
+
+.dbg_title {
+	padding-bottom: 0.2em;
+	float: left;
+}
+
+.dbg_lastMsg {
+	float: left;
+	font-family: monospace;
+	color: #AAA;
+	font-size: 1em;
+
+	white-space: nowrap;
+	max-width: 580px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.dbg_led {
+	position: absolute;
+	right: 0.5em;
+
+	color: coral;
+
+	font-size: 0.75em;
+	text-shadow: 0 0 2px;
+}
+
+#dbg_led[error] {
+	color: red !important;
+}
+
+
+#time_stmp {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	font-size: 12px;
+	font-family: Arial,Helvetica,sans-serif;
+	padding: 0.5em;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+}
+
+#debugCons[expanded] {
+	top: 0 !important;
+}
+
+#debugCons{
+	z-index: 99;
+}
+
+#debugWrap {
+	white-space: nowrap;
+}
+
+#debugWrap textarea.response {
+	line-height: 1.2;
+	height: 350px;
+	padding: 0.2em;
+
+	width: 800px;
+	color: #AAA;
+	background: #333;
+	outline: none;
+	border: none;
+
+    font-family: monospace;
+}

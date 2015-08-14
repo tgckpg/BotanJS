@@ -1,0 +1,2 @@
+/** @constructor */
+Components.Mouse = function() {};

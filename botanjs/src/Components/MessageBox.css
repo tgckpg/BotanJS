@@ -1,0 +1,62 @@
+.mbox_mask {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 100;
+}
+
+.mbox_body {
+	min-width: 350px;
+	min-height: 100px;
+	max-width: 800px;
+	max-height: 600px;
+	position: absolute;
+	background: #222;
+
+	-moz-box-shadow: 0 0 10px black;
+	-webkit-box-shadow: 0 0 10px black;
+	box-shadow: 0 0 10px black;
+}
+
+.mbox_titlebar {
+	font-size: 1.2em;
+	padding: 0.35em;
+	color: white;
+	background: #181818;
+}
+
+.mbox_content {
+	min-height: 80px;
+	padding: 1em;
+	font-family: sans-serif;
+	color: white;
+
+	/*
+	-moz-box-shadow: inset 0 10px 10px -10px black;
+	-webkit-box-shadow: inset 0 10px 10px -10px black;
+	box-shadow: inset 0 10px 10px -10px black;
+	*/
+}
+
+.mbox_buttons {
+	text-align: right;
+	padding: 1em 0.5em;
+}
+
+.mbox_button {
+	text-align: center;
+}
+
+.mbox_button > span {
+	padding: 0.5em 1em;
+	margin: 0.2em;
+	color: white;
+	cursor: default;
+}
+
+.mbox_button > span:hover {
+	background: orangered;
+}

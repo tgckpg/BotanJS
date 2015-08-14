@@ -1,0 +1,56 @@
+.swf_wrapper {
+	position: relative;
+	overflow: hidden;
+}
+
+.swf_wrapper > div {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.swf_inactive {
+	background: rgba(0, 0, 0, 0.2);
+	opacity: 1;
+}
+
+.swf_inactive:hover {
+	opacity: 0.6;
+}
+
+.swf_inactive > div {
+	width: 0;
+	height: 0;
+	border-top: 3.5em solid transparent;
+	border-bottom: 3.5em solid transparent;
+	border-left: 5em solid #FFF;
+	position: absolute;
+
+	left: 50%;
+	top: 50%;
+	margin-top: -3.5em;
+	margin-left: -1.8em;
+}
+
+ /* title */
+.swf_caption {
+	bottom: 0;
+
+	position: absolute;
+
+	display: block;
+	width: 100%;
+
+	color: white;
+	background: rgba(0, 0, 0, 0.8);
+
+	padding: 0.2em;
+
+	font-size: 2em;
+
+	cursor: default;
+}
+
+.swf_desc {
+	font-size: 60%;
+}

@@ -1,0 +1,2 @@
+/** @constructor */
+var Components = function() {};

@@ -1,0 +1,34 @@
+.right {text-align: right;}
+
+.window {
+	z-index: 99;
+	border: 1px darkgrey solid;
+	background: #222;
+}
+
+.window > span {
+	display:-moz-inline-block;
+	display:-moz-inline-box;
+	display:inline-block;
+}
+
+.titleBar {
+	font-family: custom-sans;
+	font-size: 1em;
+	padding: 0.3em 0.5em;
+	cursor: default;
+	color: white;
+}
+
+div[class^="fdock"] {
+	position: fixed;
+	transition: all .5s ease-in-out;
+	-webkit-transition: all .5s ease-in-out;
+	-moz-transition: all .5s ease-in-out;
+}
+
+div.dleft { left: 0; }
+div.dtop { top: -100%; }
+div.dright { right: 0; }
+div.dbottom { bottom: 1.5em; }
+

@@ -1,0 +1,54 @@
+.contextMenu {
+	display: none;
+
+	cursor: default;
+	position: fixed;
+	/* 1 level higher than window */
+	z-index: 100;
+
+	min-width: 135px;
+
+	font-size: 0.8em;
+
+	font-family: sans-serif;
+}
+
+.contextMenu ul > li {
+	padding: 0.8em 2em 0.8em 0.8em;
+	background: white;
+	position: relative;
+
+	white-space: nowrap;
+}
+
+.contextMenu ul > li:hover, .contextMenu ul > li[hover] {
+	background: #EEE;
+}
+
+.contextMenu li > ul {
+	position: absolute;
+	top: 0;
+	min-width: 135px;
+	max-width: 200px;
+	left: 100%;
+}
+
+.contextMenu li.expandable:after {
+	content: '\25b6';
+
+    position: absolute;
+
+    width: 0.2em;
+    height: 100%;
+
+    line-height: 0;
+
+    top: 50%;
+    right: 1em;
+}
+
+.contextMenu ul {
+	list-style-type: none;
+	background-color: white;
+	border: 1px solid #DDD;
+}
