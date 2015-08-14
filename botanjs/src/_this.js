@@ -1,3 +1,17 @@
+/**
+ * BotanJS
+ * http://botanjs.astropenguin.net/
+ *
+ * @version
+ * 0.9.0b (August 14 2015)
+ * 
+ * @copyright
+ * Copyright (C) 2014-2015 tgckpg.
+ *
+ * @license
+ * Licensed under GPL licenses.
+ */
+
 /*{{{ Shorthand Functions */
 var __extends = function( obj, target ) {
 	obj.prototype = Object.create( target.prototype );
