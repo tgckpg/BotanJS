@@ -1,9 +1,10 @@
 Goals:
-    1. Scalable
-    2. Compressable ( Closure compiler with ADVANCED option )
-    3. Readable
-    4. Only use 1 var in global scope, I.E. window.BotanJS
-    5. Package like
+
+- Scalable
+- Compressable ( Closure compiler with ADVANCED option )
+- Readable
+- Only use 1 var in global scope, I.E. window.BotanJS
+- Python-like
 
 Predefined programming rules: 
 ```
