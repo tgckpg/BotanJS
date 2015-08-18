@@ -14,7 +14,7 @@
 	max-width: 800px;
 	max-height: 600px;
 	position: absolute;
-	background: #222;
+	background-color: rgba( 0, 0, 0, 0.8 );
 
 	-moz-box-shadow: 0 0 10px black;
 	-webkit-box-shadow: 0 0 10px black;
@@ -25,7 +25,7 @@
 	font-size: 1.2em;
 	padding: 0.35em;
 	color: white;
-	background: #181818;
+	background-color: rgba( 0, 0, 0, 0.5 );
 }
 
 .mbox_content {

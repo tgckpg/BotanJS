@@ -5,11 +5,18 @@
 	var Trigger                             = __import( "System.Cycle.Trigger" );
 	/** @type {Dandelion} */
 	var Dand                                = __import( "Dandelion" );
+	/** @type {Dandelion.IDOMObject} */
+	var IDOMObject                          = __import( "Dandelion.IDOMObject" );
+	/** @type {System.utils.EventKey} */
+	var EventKey                            = __import( "System.utils.EventKey" );
 
 	// __import( "Dandelion.CSSAnimations" ); CSS_RESERVATION
 
 	var MessageBox = function ( title, content, yes, no, handler )
 	{
+		var _self = this;
+		var doc = IDOMObject( document );
+
 		var _yes = Dand.wrap(
 			"span", null
 			, "mbox_button"
@@ -20,10 +27,10 @@
 		_yes.onclick = function()
 		{
 			// if handler is set
-			if( this.clickHandler ) this.clickHandler( true );
-			document.body.removeChild( this.stage );
-			this.stage = null;
-		}.bind( this );
+			if( _self.clickHandler ) _self.clickHandler( true );
+			document.body.removeChild( _self.stage );
+			_self.stage = null;
+		};
 
 		if ( no )
 		{
@@ -35,12 +42,33 @@
 
 			_no.onclick = function()
 			{
-				if( this.clickHandler ) this.clickHandler( false );
-				document.body.removeChild( this.stage );
-				this.stage = null;
-			}.bind( this );
+				if( _self.clickHandler ) _self.clickHandler( false );
+				document.body.removeChild( _self.stage );
+				_self.stage = null;
+			};
 		}
 
+		var keyBinding = new EventKey(
+			"KeyDown", function ( e )
+			{
+				e = e || window.event;
+				if ( e.keyCode ) code = e.keyCode;
+				else if ( e.which ) code = e.which;
+
+				if ( no && code == 27 )
+				{
+					_no.click();
+					doc.removeEventListener( keyBinding );
+				}
+				else if( code == 13 && ( e.ctrlKey || e.altKey ) )
+				{
+					_yes.click();
+					doc.removeEventListener( keyBinding );
+				}
+			}
+		);
+
+		doc.addEventListener( keyBinding );
 
 		// set handler
 		if ( handler ) this.clickHandler = handler;
