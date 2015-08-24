@@ -1,5 +1,5 @@
 .ch_obj {
-	position: fixed;
+	position: absolute;
 	/* 1-level higher than Context Menu*/
 	z-index: 101;
 }
