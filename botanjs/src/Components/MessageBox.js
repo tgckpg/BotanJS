@@ -79,8 +79,8 @@
 				"mbox_body cubic500"
 				, [
 					Dand.wrapc( "mbox_titlebar flsf", title )
-					, Dand.wrapc( "mbox_content", content )
-					, Dand.wrapc( "mbox_buttons", no ? [ _yes, _no ] : _yes )
+					, Dand.wrapc( "mbox_content", this.innerBox = Dand.wrapc( "mbox-inners", content ) )
+					, this.buttonBox = Dand.wrapc( "mbox_buttons", no ? [ _yes, _no ] : _yes )
 				]
 			)
 		);
@@ -106,9 +106,21 @@
 			, function()
 			{
 				m_style.transition = m_style.minHeight = m_style.height = m_style.overflow = "";
-				m_style.marginTop = String( -0.5 * this.mbox.clientHeight ) + "px";
+
+				var bBox = this.buttonBox;
+				var mHeight = this.mbox.clientHeight;
+				var innerHeight = this.innerBox.clientHeight;
+				var bBoxHeight = bBox.clientHeight;
+
+				m_style.marginTop = ( -0.5 * mHeight ) + "px";
 
 				m_style.opacity = 1;
+				if( mHeight < ( bBox.getBoundingClientRect().y - bBox.parentNode.getBoundingClientRect().y + bBoxHeight ) )
+				{
+					m_style.height = "100%";
+					this.innerBox.style.maxHeight = ( innerHeight - bBoxHeight ) + "px"
+				}
+
 			}.bind( this )
 		);
 

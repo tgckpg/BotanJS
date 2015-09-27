@@ -2,7 +2,9 @@
 	var ns = __namespace( "System.Cycle.Trigger" );
 
 	/** @type {System.Cycle} */
-	var Cycle = __import( "System.Cycle" );
+	var Cycle                   = __import( "System.Cycle" );
+	/** @type {System.Debug} */
+	var debug                   = __import( "System.Debug" );
 
 	// trigger list
 	var tList = [];
