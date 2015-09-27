@@ -115,7 +115,7 @@
 				m_style.marginTop = ( -0.5 * mHeight ) + "px";
 
 				m_style.opacity = 1;
-				if( mHeight < ( bBox.getBoundingClientRect().y - bBox.parentNode.getBoundingClientRect().y + bBoxHeight ) )
+				if( mHeight < ( bBox.getBoundingClientRect().y - bBox.previousSibling.getBoundingClientRect().y + bBoxHeight ) )
 				{
 					m_style.height = "100%";
 					this.innerBox.style.maxHeight = ( innerHeight - bBoxHeight ) + "px"
