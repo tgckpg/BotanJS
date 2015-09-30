@@ -101,6 +101,16 @@
 		m_style.minHeight = m_style.opacity = m_style.height = 0;
 		// The interval in firefox seems independent to etablishing element style
 		// using heightTriggers-hack instead
+		var by = function( el )
+		{
+			var tRect = el.getBoundingClientRect();
+			return tRect.y || tRect.top;
+		};
+		var bh = function( el )
+		{
+			var tRect = el.getBoundingClientRect();
+			return tRect.height;
+		};
 		Trigger.height(
 			this.mbox, 0
 			, function()
@@ -115,10 +125,13 @@
 				m_style.marginTop = ( -0.5 * mHeight ) + "px";
 
 				m_style.opacity = 1;
-				if( mHeight < ( bBox.getBoundingClientRect().y - bBox.previousSibling.getBoundingClientRect().y + bBoxHeight ) )
+				if( Math.floor( mHeight ) < Math.floor( by( bBox ) - by( bBox.parentNode ) + bBoxHeight ) )
 				{
 					m_style.height = "100%";
-					this.innerBox.style.maxHeight = ( innerHeight - bBoxHeight ) + "px"
+					var resultH = innerHeight - bBoxHeight;
+					var maxResultH = mHeight - bBoxHeight - by( this.innerBox  ) + by( this.mbox );
+					this.innerBox.style.maxHeight = ( resultH < maxResultH ? resultH : maxResultH ) + "px";
+					bBox.style.marginTop = "-1em";
 				}
 
 			}.bind( this )

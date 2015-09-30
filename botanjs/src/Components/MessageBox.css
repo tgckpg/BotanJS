@@ -48,6 +48,7 @@
 	/* This is to hide the scrollbar */
 	padding-right: 50%;
 	margin-right: -50%;
+	overflow-x: hidden;
 	overflow-y: scroll;
 }
 
