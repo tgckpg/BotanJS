@@ -7,3 +7,5 @@ System.utils.objGetProp;
 System.utils.objSearch;
 /** @type {Function} */
 System.utils.objMap;
+/** @type {Function} */
+System.utils.siteProto;

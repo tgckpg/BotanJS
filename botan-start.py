@@ -65,7 +65,13 @@ if __name__ == "__main__":
 		, "beat"
 		, "-l"
 		, "info"
-	]).communicate()
+	])
+
+	import logging
+	logging.basicConfig(
+		filename = os.path.join( config["Paths"]["Log"], "access.log" )
+		, level = logging.DEBUG
+	)
 
 	WebAPI(
 		jsCache = config["Paths"]["Cache"]
