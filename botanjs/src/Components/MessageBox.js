@@ -23,9 +23,30 @@
 			, Dand.wrap( "span", null, "comp flsf", yes || "OK" )
 		);
 
+		var keyBinding = new EventKey(
+			"KeyDown", function ( e )
+			{
+				e = e || window.event;
+				if ( e.keyCode ) code = e.keyCode;
+				else if ( e.which ) code = e.which;
+
+				if ( no && code == 27 )
+				{
+					_no.click();
+				}
+				else if( code == 13 && ( e.ctrlKey || e.altKey ) )
+				{
+					_yes.click();
+				}
+			}
+		);
+
+		doc.addEventListener( keyBinding );
+
 		// left right button
 		_yes.onclick = function()
 		{
+			doc.removeEventListener( keyBinding );
 			// if handler is set
 			if( _self.clickHandler ) _self.clickHandler( true );
 			document.body.removeChild( _self.stage );
@@ -42,33 +63,12 @@
 
 			_no.onclick = function()
 			{
+				doc.removeEventListener( keyBinding );
 				if( _self.clickHandler ) _self.clickHandler( false );
 				document.body.removeChild( _self.stage );
 				_self.stage = null;
 			};
 		}
-
-		var keyBinding = new EventKey(
-			"KeyDown", function ( e )
-			{
-				e = e || window.event;
-				if ( e.keyCode ) code = e.keyCode;
-				else if ( e.which ) code = e.which;
-
-				if ( no && code == 27 )
-				{
-					_no.click();
-					doc.removeEventListener( keyBinding );
-				}
-				else if( code == 13 && ( e.ctrlKey || e.altKey ) )
-				{
-					_yes.click();
-					doc.removeEventListener( keyBinding );
-				}
-			}
-		);
-
-		doc.addEventListener( keyBinding );
 
 		// set handler
 		if ( handler ) this.clickHandler = handler;
