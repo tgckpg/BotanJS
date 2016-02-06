@@ -32,10 +32,12 @@
 
 				if ( no && code == 27 )
 				{
+					e.preventDefault();
 					_no.click();
 				}
 				else if( code == 13 && ( e.ctrlKey || e.altKey ) )
 				{
+					e.preventDefault();
 					_yes.click();
 				}
 			}
