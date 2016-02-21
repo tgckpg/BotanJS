@@ -55,6 +55,14 @@
 			_self.stage = null;
 		};
 
+		this.close = function( confirmed )
+		{
+			doc.removeEventListener( keyBinding );
+			if( _self.clickHandler ) _self.clickHandler( confirmed );
+			document.body.removeChild( _self.stage );
+			_self.stage = null;
+		};
+
 		if ( no )
 		{
 			var _no = Dand.wrap(
@@ -63,13 +71,7 @@
 				, Dand.wrap( "span", null, "comp flsf", no )
 			);
 
-			_no.onclick = function()
-			{
-				doc.removeEventListener( keyBinding );
-				if( _self.clickHandler ) _self.clickHandler( false );
-				document.body.removeChild( _self.stage );
-				_self.stage = null;
-			};
+			_no.onclick = this.close;
 		}
 
 		// set handler

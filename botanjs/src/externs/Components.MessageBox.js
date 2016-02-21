@@ -5,3 +5,5 @@ Components.MessageBox = function() {};
 Components.MessageBox.setHandler;
 /** @type {Function} */
 Components.MessageBox.show;
+/** @type {Function} */
+Components.MessageBox.close;
