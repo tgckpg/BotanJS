@@ -8,6 +8,27 @@
 	/* @type {Dandelion.IDOMElement}*/
 	var IDOMElement;
 
+	var appendR = function( container, elements )
+	{
+		if( elements instanceof Array )
+		{
+			var l = elements.length;
+			for( var i = 0; i < l; i ++ )
+			{
+				elements[i] && appendR( container, elements[i] );
+			}
+		}
+		else if( typeof elements == "string" )
+		{
+			container.appendChild( _createTextNode( elements ) );
+		}
+		// append child, do not do any error handling!
+		else if( elements )
+		{
+			container.appendChild( elements );
+		}
+	};
+
 	var wrap = function ( wwith, id, wclass, elements, iKeys )
 	{
 		var tmp = document.createElement( wwith || "div" );
@@ -41,26 +62,9 @@
 
 		if( elements )
 		{
-			// is array?
-			if(elements instanceof Array)
-			{
-				var l = elements.length;
-				for( var i = 0; i < l; i ++ )
-				{
-					elements[i] && tmp.appendChild( elements[i] );
-				}
-			}
-			// else if string
-			else if( typeof elements == "string" )
-			{
-				tmp.appendChild(_createTextNode(elements));
-			}
-			// else append child, do not do any error handling!
-			else if( elements )
-			{
-				tmp.appendChild( elements );
-			}
+			appendR( tmp, elements );
 		}
+
 		return tmp;
 	};
 
@@ -75,12 +79,12 @@
 
 	// wrap name element after
 	var wrapne = function ( name, elements, iKeys ) {
-		return wrap(name, false, false, elements, iKeys);
+		return wrap( name, false, false, elements, iKeys );
 	};
 
 	// wrap name attirbutes after
 	var wrapna = function ( name, iKeys ) {
-		return wrap(name, false, false, false, iKeys);
+		return wrap( name, false, false, false, iKeys );
 	};
 
 	var _createTextNode = function (s)
