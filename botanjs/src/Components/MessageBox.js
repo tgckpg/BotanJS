@@ -71,7 +71,7 @@
 				, Dand.wrap( "span", null, "comp flsf", no )
 			);
 
-			_no.onclick = this.close;
+			_no.onclick = function(){ _self.close( false ) };
 		}
 
 		// set handler
