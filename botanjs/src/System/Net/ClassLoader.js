@@ -47,21 +47,39 @@
 			if( !classes.join ) classes = [ classes ];
 
 			var excludes = BotanJS.getDef();
-			// Excludes
-			utils.objMap( excludes , function( v ) { return "-" + v; } );
 
-			var loadc = null;
 			var onLoad = function( e )
 			{
 				if( classes.indexOf( e.data.name ) < 0 ) return;
 				handler( e.data.name );
 			};
 
+			// Handle the already loaded classes
+			var needed = [];
+			for( var i in classes )
+			{
+				var c = classes[i];
+				if( excludes.indexOf( c ) == -1 )
+				{
+					needed.push( c );
+				}
+				else
+				{
+					handler( c );
+				}
+			}
+
+			if( !needed.length ) return;
+
+			// Excludes
+			utils.objMap( excludes , function( v ) { return "-" + v; } );
+			var loadc = null;
+
 			var sp = mode ? { 'o': '/', 'r': '/' }[ mode ] : ',';
 
 			loadFile(
 				sapi
-				, classes.join( sp ) + sp + excludes.join( sp )
+				, needed.join( sp ) + sp + excludes.join( sp )
 				, mode
 			);
 
