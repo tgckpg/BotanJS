@@ -88,13 +88,21 @@
 				]
 			)
 		);
+
+		this.showned = false;
 	};
 
 	MessageBox.prototype.setHandler = function( handler ) { this.clickHandler = handler };
 
 	MessageBox.prototype.show = function ()
 	{
-		document.body.appendChild( this.stage );
+		var update = this.showned;
+		if( !update )
+		{
+			this.showned = true;
+			document.body.appendChild( this.stage );
+		}
+
 		// Center the box
 		var m_style = this.mbox.style;
 
@@ -103,6 +111,7 @@
 		m_style.marginLeft = String( -0.5 * this.mbox.clientWidth ) + "px";
 		m_style.overflow = "hidden";
 		m_style.minHeight = m_style.opacity = m_style.height = 0;
+
 		// The interval in firefox seems independent to etablishing element style
 		// using heightTriggers-hack instead
 		var by = function( el )
@@ -110,11 +119,13 @@
 			var tRect = el.getBoundingClientRect();
 			return tRect.y || tRect.top;
 		};
+
 		var bh = function( el )
 		{
 			var tRect = el.getBoundingClientRect();
 			return tRect.height;
 		};
+
 		Trigger.height(
 			this.mbox, 0
 			, function()
