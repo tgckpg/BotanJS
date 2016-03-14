@@ -1,17 +1,27 @@
 #!/usr/bin/env python3
 import os
-from celery import Celery
-from celery.utils.log import get_task_logger
 from botanjs.compressor.closure import Wrapper as ClosureWrapper
 from botanjs.compressor.yui import Wrapper as YUIWrapper
 from botanjs.classmap import ClassMap
 
-app = Celery( "botanJWork" )
-log = get_task_logger( __name__ )
+CeleryExists = True 
+try:
+	from celery import Celery
+except ImportError:
+	CeleryExists = False
 
-if os.path.exists( "settings.ini" ):
-	from botanjs.config import Config
-	app.conf.update( BROKER_URL = Config["BotanJS"]["CeleryBroker"] )
+if CeleryExists:
+	from celery.utils.log import get_task_logger
+	app = Celery( "botanJWork" )
+	log = get_task_logger( __name__ )
+
+	if os.path.exists( "settings.ini" ):
+		from botanjs.config import Config
+		app.conf.update( BROKER_URL = Config["BotanJS"]["CeleryBroker"] )
+
+else:
+	from botanjs.dummy import app
+	from botanjs.dummy import log
 
 class JWork:
 

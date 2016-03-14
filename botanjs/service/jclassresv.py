@@ -52,6 +52,22 @@ class Resolver:
 
 		fx = "/".join( self.EX_CLASS + x for x in lista[:-1] )
 
+		# resolve wildcard A.B.*
+		if  c[-2:] == ".*":
+			elem = self.bMap.findall( ".//" + fx + self.EX_CLASS )
+
+			if elem == None:
+				raise LookupError( "Namespace does not exists or contains no classes: " + c )
+
+			c = c[0:-1]
+			for cl in elem:
+				cl = c + cl.attrib[ "name" ]
+
+				if cl not in self.resolved:
+					self.__resolve( cl, classList )
+
+			return
+
 		it = lista[-1]
 		# Test if class
 		elem = self.bMap.find( ".//" + fx + self.EX_CLASS + it )
