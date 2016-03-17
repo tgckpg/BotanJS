@@ -22,7 +22,7 @@
 	/* }}}*/
 
 	// Reverse an array using XOR swap
-	var Array_Reverse = function( array )
+	var ArrayReverse = function( array )
 	{
 		var i = null;
 		var l = array.length;
@@ -39,6 +39,26 @@
 		}
 	};
 
+	// Count Occurance of a string
+	var CountSubString = function ( str, search )
+	{
+		if ( search.length <= 0 )
+		{
+			return str.length + 1;
+		}
+
+		var c = 0;
+
+		for( var i = str.indexOf( search ); 0 <= i ; i = str.indexOf( search, i ) )
+		{
+			c ++;
+			i ++;
+		}
+
+		return c;
+	};
+
 	ns[ NS_EXPORT ]( EX_READONLY_GETTER, "uuid", UUID );
-	ns[ NS_EXPORT ]( EX_FUNC, "ArrayReverse", Array_Reverse );
+	ns[ NS_EXPORT ]( EX_FUNC, "CountSubstr", CountSubString );
+	ns[ NS_EXPORT ]( EX_FUNC, "ArrayReverse", ArrayReverse );
 })();
