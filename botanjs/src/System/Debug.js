@@ -14,10 +14,10 @@
 		Log.writeLine( e.name + "\n\t" + e.message + "\n\t" + e.stack, Log.ERROR );
 	};
 
-	var Info = function(e)
+	var Info = function()
 	{
 		if( st_info )
-		Log.writeLine( e, Log.INFO );
+		Log.writeLine( Array.prototype.join.call( arguments, " " ), Log.INFO );
 	};
 
 	var turnOff = function( what )
