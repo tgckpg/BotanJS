@@ -1,3 +1,4 @@
+var BOTANJS_VERSION = "1.0.0b";
 /*{{{ Shorthand Functions */
 var __extends = function( obj, target ) {
 	obj.prototype = Object.create( target.prototype );
@@ -369,7 +370,7 @@ __import = __import || function( ns, noCache )
 /* End Import operator }}}*/
 
 window["BotanJS"] = {};
-window["BotanJS"]["version"] = "0.2";
+window["BotanJS"]["version"] = BOTANJS_VERSION;
 window["BotanJS"]["codename"] = "Botanical framework.js";
 window["BotanJS"]["import"] = function( p )
 {
