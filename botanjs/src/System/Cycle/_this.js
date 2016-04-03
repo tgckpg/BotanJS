@@ -10,6 +10,12 @@
 
 	var tList = [];
 
+	var C_CALLBACK = 0;
+	var C_TIME = 1;
+	var C_ONCE = 2;
+	var C_ID = 3;
+	var C_INTVL = 4;
+
 	var stepper = function()
 	{
 		var thisTime = new Date().getTime();
@@ -21,11 +27,11 @@
 		for ( var i in tList )
 		{
 			var f = tList[i];
-			if( f && thisTime > f[1] )
+			if( f && thisTime > f[ C_TIME ] )
 			{
 				try
 				{
-					f[0]();
+					f[ C_CALLBACK ]();
 				}
 				catch(e)
 				{
@@ -34,13 +40,13 @@
 					continue;
 				}
 
-				if( f[2] )
+				if( f[ C_ONCE ] )
 				{
 					delete tList[i];
 				}
 				else
 				{
-					f[1] = thisTime + f[4];
+					f[ C_TIME ] = thisTime + f[ C_INTVL ];
 				}
 			}
 		}
@@ -56,7 +62,7 @@
 	{
 		for ( var i in tList )
 		{
-			if( tList[i][3] == id )
+			if( tList[i][ C_ID ] == id )
 				return false;
 		}
 
@@ -68,14 +74,19 @@
 		// 3: id
 		for ( var i in tList )
 		{
-			if( tList[i][3] == id )
+			if( tList[i][ C_ID ] == id )
 				delete tList[i];
 		}
 	};
 
 	var next = function( func )
 	{
-		tList[ tList.length ] = [ func, 0, true ];
+		var a = [];
+		a[ C_CALLBACK ] = func;
+		a[ C_TIME ] = 0;
+		a[ C_ONCE ] = true;
+
+		tList[ tList.length ] = a;
 	};
 
 	var ourTick = new Tick();
