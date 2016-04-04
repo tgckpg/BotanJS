@@ -19,11 +19,6 @@
 	var stepper = function()
 	{
 		var thisTime = new Date().getTime();
-		// 0: Callback
-		// 1: scheduled run time
-		// 2: Permanent
-		// ( 3: id )
-		// 4: interval
 		for ( var i in tList )
 		{
 			var f = tList[i];
@@ -55,7 +50,12 @@
 	// Should bind "func" before register
 	var registerDelay = function (func, milliSec)
 	{
-		tList[ tList.length ] = [ func, new Date().getTime() + milliSec, true ];
+		var a = [];
+		a[ C_CALLBACK ] = func;
+		a[ C_TIME ] = new Date().getTime() + milliSec;
+		a[ C_ONCE ] = true;
+
+		tList[ tList.length ] = a;
 	};
 
 	var registerPermanentTicker = function ( id, func, interval )
@@ -66,7 +66,14 @@
 				return false;
 		}
 
-		tList[ tList.length ] = [ func, new Date().getTime() + interval, false, id, interval ];
+		var a = [];
+		a[ C_CALLBACK ] = func;
+		a[ C_TIME ] = new Date().getTime() + interval;
+		a[ C_ONCE ] = false;
+		a[ C_ID ] = id;
+		a[ C_INTVL ] = interval;
+
+		tList[ tList.length ] = a;
 	};
 
 	var deletePermanentTicker = function ( id )
