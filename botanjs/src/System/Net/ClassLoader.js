@@ -9,6 +9,8 @@
 	/** @type {Dandelion} */
 	var Dand                         = __import( "Dandelion" );
 
+	var LoadedClasses = {};
+
 	var loadFile = function ( sapi, request, mode )
 	{
 		var head = Dand.tag( "head" )[0];
@@ -59,13 +61,13 @@
 			for( var i in classes )
 			{
 				var c = classes[i];
-				if( excludes.indexOf( c ) == -1 )
+				if( ~excludes.indexOf( c ) || LoadedClasses[ c ] )
 				{
-					needed.push( c );
+					handler( c );
 				}
 				else
 				{
-					handler( c );
+					needed.push( c );
 				}
 			}
 
@@ -84,7 +86,15 @@
 			);
 
 			BotanJS.addEventListener( "NS_INIT", onLoad );
-			BotanJS.addEventListener( "NS_EXPORT", onLoad );
+
+			BotanJS.addEventListener( "NS_EXPORT", function( e )
+			{
+				if( e.data.name )
+				{
+					LoadedClasses[ e.data.name ] = 1;
+				}
+				onLoad( e );
+			} );
 		};
 	};
 
