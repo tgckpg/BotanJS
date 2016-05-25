@@ -10,23 +10,24 @@
 	var IDOMObject = ns[ NS_INVOKE ]( "IDOMObject" );
 
 	// IDOMElement, augmented element wrapper utilizing IKeys
-	var IDOMElement = function (element, sw)
+	var IDOMElement = function ( element, sw )
 	{
-		if (element instanceof IDOMElement) return element;
+		if ( element instanceof IDOMElement ) return element;
 
-		if (sw)
+		if ( sw )
 		{
 			IDOMObject.call( this, element, true );
 
-			this["getDAttribute"] = this.getDAttribute.bind(element);
+			this["getDAttribute"] = this.getDAttribute.bind( element );
 
-			this["lootChildren"] = this.lootChildren.bind(element);
+			this["loot"] = this.loot.bind( element );
 
 			this["foreach"] = this.foreach.bind(element);
-			this["reverseChild"] = this.reverseChild.bind(element);
-			this["first"] = this.first.bind(element);
-			this["last"] = this.last.bind(element);
-			this["contains"] = this.contains.bind(element);
+			this["reverseChild"] = this.reverseChild.bind( element );
+			this["clear"] = this.clear.bind( element );
+			this["first"] = this.first.bind( element );
+			this["last"] = this.last.bind( element );
+			this["contains"] = this.contains.bind( element );
 
 			// Org values
 			this["style"] = element.style;
@@ -76,13 +77,20 @@
 		}
 	};
 
-	IDOMElement.prototype.lootChildren = function ( element )
+	IDOMElement.prototype.loot = function ( element )
 	{
 		var _nodes = element.childNodes;
 		while(_nodes.length)
 		{
 			this.appendChild( element.removeChild( _nodes[0] ) );
 		}
+	};
+
+	IDOMElement.prototype.clear = function ()
+	{
+		var _nodes = this.childNodes;
+		while( _nodes.length )
+			this.removeChild( _nodes[0] );
 	};
 
 	IDOMElement.prototype.getDAttribute = function(name)

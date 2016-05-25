@@ -6,7 +6,9 @@ Dandelion.IDOMElement.getDAttribute;
 /** @type {Function} */
 Dandelion.IDOMElement.setAttribute;
 /** @type {Function} */
-Dandelion.IDOMElement.lootChildren;
+Dandelion.IDOMElement.loot;
+/** @type {Function} */
+Dandelion.IDOMElement.clear;
 /** @type {Function} */
 Dandelion.IDOMElement.foreach;
 /** @type {Function} */
