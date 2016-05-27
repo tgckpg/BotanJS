@@ -12,13 +12,14 @@ A working concept of Js/Css framework for web browsers
 
 ### Disclaimer
 - This is a working concept. So it works on me. And may have a bunch of useless dependency. Use at your own risks!
-- It requires Python 3!
-
 
 ### Documentation
 - Will be added later
 
 ### Prerequisties
+- python3
+- virtualenv
+
 #### For Service.WebAPI
 - pip install Flask
 - pip install Celery
@@ -27,11 +28,11 @@ A working concept of Js/Css framework for web browsers
 
 ### Before start, run
 ```
+virtualenv env
 ./botan-rebuild
 ```
 
-#### To start just run ( need to be root )
-Don't worry, this will immediately drop root permission and switch to the user defined in settings.ini
+#### To start just run ( in virtualenv )
 ```
 ./botan-start
 ```
