@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import os
+from botanjs.config import Config as config
 
-COMPILER = "/opt/utils/yuicompressor.jar"
+COMPILER = config[ "BotanJS" ][ "YuiCompressor" ]
 
 if not os.path.isfile( COMPILER ):
 	raise Exception( "Compiler not found" )

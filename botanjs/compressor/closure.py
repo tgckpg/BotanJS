@@ -2,8 +2,9 @@
 
 import os
 from tempfile import NamedTemporaryFile
+from botanjs.config import Config as config
 
-COMPILER = "/opt/utils/closure.jar"
+COMPILER = config[ "BotanJS" ][ "ClosureCompiler" ]
 
 if not os.path.isfile( COMPILER ):
 	raise Exception( "Compiler not found" )

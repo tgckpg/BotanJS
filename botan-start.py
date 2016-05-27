@@ -1,25 +1,25 @@
-#!/usr/bin/env python3
+#!env/bin/python
 
-import os, pwd, grp
+import os, sys
 from botanjs.config import Config as config, DEBUG
-
-import shutil
+from subprocess import Popen
+from botanjs.service.webapi import WebAPI
 
 SiteRoot = os.path.abspath( "." )
 
+# Setting the SiteRoot for config
 config["Paths"]["SiteRoot"] = SiteRoot;
 
 # Create the lock folder for celery
-lockDir = SiteRoot + "env/var/run/celery"
+lockDir = os.path.join( SiteRoot, "env", "var", "run" "celery" )
 
 os.makedirs( lockDir, exist_ok=True )
 
-import sys
-from subprocess import Popen
-
 sys.path.append( os.path.abspath( "." ) )
 
-from botanjs.service.webapi import WebAPI
+RUNTIME_ENV = os.path.abspath( os.path.join( "env", "bin" ) )
+if RUNTIME_ENV not in os.environ[ "PATH" ]:
+	os.environ[ "PATH" ] = RUNTIME_ENV + os.pathsep + os.environ[ "PATH" ]
 
 if __name__ == "__main__":
 
