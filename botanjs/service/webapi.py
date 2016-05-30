@@ -4,7 +4,7 @@ from flask import Response
 from flask import render_template
 from botanjs.service.jclassresv import BotanClassResolver as JCResv
 from botanjs.service.jwork import app as CeleryApp, JWork
-from botanjs.config import DEBUG
+from botanjs.config import Config, DEBUG
 
 import os
 
@@ -32,7 +32,10 @@ class WebAPI:
 		self.app.add_url_rule( "/" , view_func = self.index )
 		self.app.add_url_rule( "/<path:mode>/<path:code>" , view_func = self.api_request )
 
-		self.app.run( host = "0.0.0.0", debug = DEBUG )
+		self.app.run(
+			host = Config[ "Service" ][ "BindAddress" ]
+			, port = int( Config[ "Service" ][ "Port" ] )
+			, debug = DEBUG )
 
 	def index( self ):
 		return "Hello, this is the BotanJS Service API.", 200
@@ -52,6 +55,3 @@ class WebAPI:
 
 
 		return "Invalid request", 404
-
-if __name__ == "__main__":
-	WebAPI()
