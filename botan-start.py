@@ -11,7 +11,7 @@ SiteRoot = os.path.abspath( "." )
 config["Paths"]["SiteRoot"] = SiteRoot;
 
 # Create the lock folder for celery
-lockDir = os.path.join( SiteRoot, "env", "var", "run" "celery" )
+lockDir = os.path.join( SiteRoot, "env", "var", "run", "celery" )
 
 os.makedirs( lockDir, exist_ok=True )
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
 		[
 			"celery", "multi", "restart", nodeName
 			, "-A", jwork, "worker"
-			, "--pidfile=" + lockDir + jwork + ".pid"
+			, "--pidfile=" + os.path.join( lockDir, jwork + ".pid" )
 			, "--logfile=" + os.path.join( config["Paths"]["Log"], jwork + ".log" )
 			, "--workdir=" + config["Paths"]["Runtime"]
 			, "beat", "-l", "info"
