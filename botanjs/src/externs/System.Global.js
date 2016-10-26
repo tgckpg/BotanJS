@@ -9,3 +9,6 @@ System.Global.IE;
 
 /** @type {Boolean} */
 System.Global.SECURE_HTTP;
+
+/** @type {Boolean} */
+System.Global.MOBILE;
