@@ -288,7 +288,7 @@ class BotanClassResolver:
 		for f in self.cleanList( cList ):
 			outputCss += self.BotanFile( f )
 
-		[ self.JWork.saveCache if self.returnHash else self.JWork.saveCache.delay ][0] (
+		[ self.JWork.saveCache if self.returnHash else self.JWork.saveCache ][0] (
 			os.path.join( self.CR, md5[0] ), outputCss, "css"
 		)
 
