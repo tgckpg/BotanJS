@@ -25,7 +25,6 @@ else:
 
 class JWork:
 
-	@app.task()
 	def saveCache( location, content = None, mode = None, externs = "" ):
 		if content != None:
 			log.info( "Writing file(" +  str( len( content ) ) + "): " + os.path.abspath( location ) )

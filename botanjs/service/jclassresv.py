@@ -204,7 +204,7 @@ class BotanClassResolver:
 			return cFHash if self.returnHash else self.BotanCache( cFile )
 
 		elif self.useCache( oFile, dates ):
-			self.JWork.saveCache.delay(
+			self.JWork.saveCache(
 				oFile
 				# Content is None to initiate a compression
 				, None
@@ -253,7 +253,7 @@ class BotanClassResolver:
 
 		outputJs = wrapScope( outputJs )
 
-		[ self.JWork.saveCache if self.returnHash else self.JWork.saveCache.delay ][0] (
+		[ self.JWork.saveCache if self.returnHash else self.JWork.saveCache ][0] (
 			os.path.join( self.CR, md5[0] )
 			, outputJs
 			, "js"
