@@ -13,15 +13,6 @@ var __readOnly = function( prototype, name, callback )
 		}.bind( { p: name } )
 	} );
 };
-var __getter = function( obj, name, callback )
-{
-	Object.defineProperty( obj, name, {
-		get: callback
-		, set: function( v ) {
-			throw new Error( "Setting a read-only property: " + this.p );
-		}.bind( { p: name } )
-	} );
-};
 var __static_method = function( obj, name, callback )
 {
 	Object.defineProperty( obj, name, {
@@ -54,20 +45,14 @@ var BotanEvent = function( name, data )
 
 	__static_method(
 	   this, "stopPropagating"
-	   , function()
-	   {
-		   __propagating = false;
-	   }
+	   , function() { __propagating = false; }
 	);
 
 	__const( this, "type", name );
 
-	__getter(
+	__readOnly(
 		this, "propagating"
-		, function()
-		{
-			return __propagating;
-		}
+		, function() { return __propagating; }
 	);
 
 	__const( this, "data", data );
