@@ -1,0 +1,2 @@
+/** @constructor */
+System.Encoding = function(){};

@@ -1,17 +1,22 @@
 (function(){
 	var ns = __namespace( "System.Net" );
-	var className = "ClassLoader";
 
 	/** @type {System.utils} */
 	var utils                        = __import( "System.utils" );
 	/** @type {System.utils.IKey} */
 	var IKey                         = __import( "System.utils.IKey" );
+	/** @type {System.Encoding.CodePage} */
+	var Utf8                         = __import( "System.Encoding.Utf8" );
+	/** @type {System.Encoding.CodePage} */
+	var Base64                       = __import( "System.Encoding.Base64" );
 	/** @type {Dandelion} */
 	var Dand                         = __import( "Dandelion" );
 
+	var Deflate = __import( "System.Compression.Zlib.Deflate" );
+
 	var LoadedClasses = {};
 
-	var loadFile = function ( sapi, request, mode )
+	var loadFile = function ( sapi, payload, mode )
 	{
 		var head = Dand.tag( "head" )[0];
 
@@ -22,7 +27,7 @@
 				, IKey.quickDef(
 					"rel", "stylesheet"
 					, "type", "text/css"
-					, "href", sapi + mode + "css/" + request
+					, "href", sapi + mode + "css/?p=" + payload
 				)
 			)
 		);
@@ -33,7 +38,7 @@
 				"script"
 				, IKey.quickDef(
 					"type", "text/javascript"
-					, "src",  sapi + mode + "js/" + request
+					, "src", sapi + mode + "js/?p=" + payload
 				)
 			)
 		);
@@ -42,7 +47,7 @@
 
 	var Loader = function( sapi, mode )
 	{
-		mode = ( mode === undefined ) ? "o" : mode;
+		mode = ( mode === undefined ) ? "" : mode;
 
 		this.load = function( classes, handler )
 		{
@@ -75,18 +80,14 @@
 
 			// Excludes
 			utils.objMap( excludes , function( v ) { return "-" + v; } );
-			var loadc = null;
 
-			var sp = mode ? { 'o': '/', 'r': '/' }[ mode ] : ',';
+			// Compile the payload
+			var payload = needed.join( ',' ) + ',' + excludes.join( ',' );
+			payload = encodeURIComponent( Base64.Encode( Deflate( Utf8.Encode( payload ) ) ) );
 
-			loadFile(
-				sapi
-				, needed.join( sp ) + sp + excludes.join( sp )
-				, mode
-			);
+			loadFile( sapi, payload, mode );
 
 			BotanJS.addEventListener( "NS_INIT", onLoad );
-
 			BotanJS.addEventListener( "NS_EXPORT", function( e )
 			{
 				if( e.data.name )

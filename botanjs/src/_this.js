@@ -309,13 +309,13 @@ __import = __import || function( ns, noCache )
 		{
 			if( wildcard && j[0] == EX_CLASS )
 			{
-				nsObj[ i ] = j[1];
+				__const( nsObj, i, j[1] );
 			}
 			else if( j[0] == EX_FUNC )
 			{
-				nsObj[ i ] = j[1];
+				__const( nsObj, i, j[1] );
 			}
-		   	else if( j[0] == EX_CONST )
+			else if( j[0] == EX_CONST )
 			{
 				Object.defineProperty( nsObj, i, {
 					get: function() {
@@ -326,7 +326,7 @@ __import = __import || function( ns, noCache )
 					}.bind( { p: i } )
 				});
 			}
-		   	else if( j[0] == EX_VAR )
+			else if( j[0] == EX_VAR )
 			{
 				Object.defineProperty( nsObj, i, {
 					get: function() {
@@ -346,6 +346,11 @@ __import = __import || function( ns, noCache )
 					}.bind( { p: i } )
 				});
 			}
+		}
+		// import the namespace
+		else if( wildcard && j.__TRIGGERS )
+		{
+			__const( nsObj, i, __import( nss + "." + i ) );
 		}
 	}
 

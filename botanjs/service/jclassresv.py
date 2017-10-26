@@ -1,9 +1,4 @@
-
-import os
-import re
-import base64
-import zlib
-import hashlib
+import os, re, base64, zlib, hashlib, binascii
 import xml.etree.ElementTree as ET
 
 PY_SEP = os.path.sep
@@ -200,7 +195,7 @@ class BotanClassResolver:
 		# Root file date
 		dates.append( os.path.getmtime( os.path.join( self.R, "_this.js" ) ) );
 
-		if self.useCache( cFile, dates ) and self.flagCompress == True:
+		if self.flagCompress and self.useCache( cFile, dates ):
 			return cFHash if self.returnHash else self.BotanCache( cFile )
 
 		elif self.useCache( oFile, dates ):
@@ -303,7 +298,6 @@ class BotanClassResolver:
 		self.resv._reload()
 		flag = mode[0]
 		requestAPIs = code
-		sp = "/"
 
 		if flag == "o":
 			mode = mode[1:]
@@ -312,12 +306,16 @@ class BotanClassResolver:
 			self.flagCompress = False
 		else:
 			self.returnHash = True
+
+		try:
 			requestAPIs = (
 				# decode -> decompress -> split
 				zlib.decompress( base64.b64decode( code, None, True ) )
 					.decode( "utf-8" )
 			)
 			sp = ","
+		except binascii.Error:
+			sp = "/"
 
 		# strip malicious
 		requestAPIs = (

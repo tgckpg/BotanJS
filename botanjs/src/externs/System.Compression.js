@@ -1,0 +1,2 @@
+/** @constructor */
+System.Compression = function(){};
