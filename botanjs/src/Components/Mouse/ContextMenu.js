@@ -19,7 +19,6 @@
 	/** @type {Components.Mouse.Clipboard} */
 	var Clipboard 						 = __import( "Components.Mouse.Clipboard" );
 
-
 	var ContextMenu = function ( target, items, whichButton, menuInsideTarget, overrides )
 	{
 		if ( !target.id )
@@ -489,7 +488,6 @@
 		}
 		return false;
 	};
-
 
 	ns[ NS_EXPORT ]( EX_CLASS, "ContextMenu", ContextMenu );
 })();
