@@ -23,7 +23,7 @@ class Wrapper:
 	E = ""
 
 	def __init__( self ):
-		self.C = "java -jar "+ COMPILER + " " + " ".join( COMPILER_OPTIONS )
+		self.C = "java -jar -Xmx64M "+ COMPILER + " " + " ".join( COMPILER_OPTIONS )
 
 	def scanExterns( self, sdir ):
 		for root, dirs, files in os.walk( sdir ):
