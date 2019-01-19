@@ -1,11 +1,10 @@
-#!/usr/bin/env python3
 from flask import Flask
 from flask import Response
 from flask import render_template
 from flask import request
 from botanjs.service.jclassresv import BotanClassResolver as JCResv
 from botanjs.service.jwork import app as CeleryApp, JWork
-from botanjs.config import Config, DEBUG
+from botanjs.config import Config
 
 import os
 
@@ -33,10 +32,8 @@ class WebAPI:
 		self.app.add_url_rule( "/<mode>/" , view_func = lambda mode: self.api_request( mode, "zpayload" ) )
 		self.app.add_url_rule( "/<mode>/<path:code>" , view_func = self.api_request )
 
-		self.app.run(
-			host = Config[ "Service" ][ "BindAddress" ]
-			, port = int( Config[ "Service" ][ "Port" ] )
-			, debug = DEBUG )
+	def run( self, *args, **kwargs ):
+		return self.app.run( *args, **kwargs )
 
 	def index( self ):
 		return "Hello, this is the BotanJS Service API.", 200

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+INST_DIR=$( dirname "${BASH_SOURCE[0]}" )
+source "$INST_DIR/config"
+
+mkdir -p "$RUN_ROOT"
+mkdir -p "$ETC_ROOT"
+
+sed -e "s|PROJ_ROOT|$PROJ_ROOT|g" \
+    -e "s|BIN_ROOT|$BIN_ROOT|g" \
+    -e "s|RUN_ROOT|$RUN_ROOT|g" \
+    "$INST_DIR/celery.conf" > "$ETC_ROOT/celery.conf"
+
+sed -e "s|PROJ_ROOT|$PROJ_ROOT|g" \
+    -e "s|ETC_ROOT|$ETC_ROOT|g" \
+    -e "s|RUN_AS|$RUN_AS|g" \
+    "$INST_DIR/compiler-tasks.service" > $HOME/.config/systemd/user/botanjs-tasks.service
+
+systemctl --user enable botanjs-tasks.service
+systemctl --user daemon-reload
+systemctl --user start botanjs-tasks.service
