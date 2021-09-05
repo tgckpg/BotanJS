@@ -8,7 +8,7 @@ from botanjs.service.webapi import WebAPI
 SiteRoot = os.path.abspath( "." )
 
 # Setting the SiteRoot for config
-config["Paths"]["SiteRoot"] = SiteRoot;
+config["Paths"]["SiteRoot"] = SiteRoot
 
 service = WebAPI(
 	jsCache = config["Paths"]["Cache"]

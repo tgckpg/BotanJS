@@ -17,7 +17,7 @@ if CeleryExists:
 
 	if os.path.exists( "settings.ini" ):
 		from botanjs.config import Config
-		app.conf.update( BROKER_URL = Config["BotanJS"]["CeleryBroker"] )
+		app.conf.update( broker_url = Config["BotanJS"]["CeleryBroker"] )
 
 else:
 	from botanjs.dummy import app
@@ -34,7 +34,7 @@ class JWork:
 		if mode == "js":
 			JWork.compressJs.delay( location, externs )
 		elif mode == "css":
-			JWork.compressCss.delay( location )
+			JWork.compressCss( location )
 
 	@app.task()
 	def compressJs( md5, externs ):
@@ -54,5 +54,6 @@ class JWork:
 		log.info( "Building Class Map" )
 		c = ClassMap( src )
 
+		os.makedirs( os.path.dirname( location ), exist_ok = True )
 		with open( location, "w" ) as f:
 			f.write( c.build() )

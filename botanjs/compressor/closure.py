@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from sys import platform
 from tempfile import NamedTemporaryFile
 from botanjs.config import Config as config
 
@@ -45,8 +46,6 @@ class Wrapper:
 		with open( loc, "rb" ) as f:
 			content = f.read()
 
-		with NamedTemporaryFile() as f:
+		with NamedTemporaryFile( delete = ( not platform == "win32" ) ) as f:
 			f.write( content[12:-5] )
 			os.system( self.C + self.E + " --js " + f.name + " --js_output_file " + loc[:-3] + ".c.js" )
-
-

@@ -1,0 +1,13 @@
+.dockerignore
+.git
+.gitignore
+*~
+*.swp
+*.pyc
+Dockerfile
+k8s.yaml
+windows/*
+__pycache__
+cache/*
+logs/*
+env/*

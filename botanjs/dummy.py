@@ -18,7 +18,7 @@ class dummyTask( object ):
 		pass
 
 class dummyConf:
-	def update( self, BROKER_URL = None ):
+	def update( self, broker_url = None ):
 		pass
 
 class app:

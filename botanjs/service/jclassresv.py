@@ -99,7 +99,9 @@ class BotanClassResolver:
 
 	classMap = ""
 	flagCompress = True
+	oModeIfSizelt = 50 * 1024
 	returnHash = False
+	returnDynamic = False
 	resv = None
 
 	def __init__( self, jwork, BotanRoot, classMap, cacheRoot ):
@@ -122,12 +124,17 @@ class BotanClassResolver:
 
 		return content
 
-	def BotanCache( self, t ):
-		content = ""
-		with open( t, "r" ) as f:
-			content = f.read()
+	def BotanCache( self, srcFile, fileHash, hashContentDynamic ):
 
-		return content
+		for _ in [0]:
+			if hashContentDynamic and os.path.getsize( srcFile ) < self.oModeIfSizelt:
+				break
+
+			if self.returnHash:
+				return fileHash
+
+		with open( srcFile, "r" ) as f:
+			return f.read()
 
 	def cleanList( self, lista ):
 		olist = []
@@ -196,7 +203,7 @@ class BotanClassResolver:
 		dates.append( os.path.getmtime( os.path.join( self.R, "_this.js" ) ) );
 
 		if self.flagCompress and self.useCache( cFile, dates ):
-			return cFHash if self.returnHash else self.BotanCache( cFile )
+			return self.BotanCache( cFile, cFHash, self.returnDynamic )
 
 		elif self.useCache( oFile, dates ):
 			self.JWork.saveCache(
@@ -207,7 +214,7 @@ class BotanClassResolver:
 				, os.path.join( self.R, "externs" )
 			)
 
-			return oFHash if self.returnHash else self.BotanCache( oFile )
+			return self.BotanCache( oFile, oFHash, False )
 
 	def useCache( self, f, dList ):
 		if not os.path.exists( f ):
@@ -248,7 +255,7 @@ class BotanClassResolver:
 
 		outputJs = wrapScope( outputJs )
 
-		[ self.JWork.saveCache if self.returnHash else self.JWork.saveCache ][0] (
+		self.JWork.saveCache(
 			os.path.join( self.CR, md5[0] )
 			, outputJs
 			, "js"
@@ -283,9 +290,7 @@ class BotanClassResolver:
 		for f in self.cleanList( cList ):
 			outputCss += self.BotanFile( f )
 
-		[ self.JWork.saveCache if self.returnHash else self.JWork.saveCache ][0] (
-			os.path.join( self.CR, md5[0] ), outputCss, "css"
-		)
+		self.JWork.saveCache( os.path.join( self.CR, md5[0] ), outputCss, "css" )
 
 		if self.returnHash:
 			return md5[0]
@@ -299,13 +304,26 @@ class BotanClassResolver:
 		flag = mode[0]
 		requestAPIs = code
 
+		# Return compressed contents if possible
+		# otherwise return raw contents
 		if flag == "o":
 			mode = mode[1:]
+
+		# Return raw contents only
 		elif flag == "r":
 			mode = mode[1:]
 			self.flagCompress = False
+
+		# Return hashed filenames only
+		elif flag == "h":
+			mode = mode[1:]
+			self.returnHash = True
+
+		# Return hashed filenames if content is larger than self.oModeIfSizelt bytes
+		# otherwise act as "o" mode
 		else:
 			self.returnHash = True
+			self.returnDynamic = True
 
 		try:
 			requestAPIs = (
@@ -329,7 +347,8 @@ class BotanClassResolver:
 
 		for apis in requestAPIs:
 
-			if apis == None: continue
+			if not apis:
+				continue
 
 			classList = []
 			lookupList = imports

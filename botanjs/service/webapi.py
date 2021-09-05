@@ -23,9 +23,9 @@ class WebAPI:
 		self.BMap = os.path.join( self.BCache, "bmap.xml" )
 
 		if brokerURL != None:
-			CeleryApp.conf.update( BROKER_URL = brokerURL )
+			CeleryApp.conf.update( broker_url = brokerURL )
 
-		self.app = Flask( __name__, static_url_path = self.BCache, static_folder = self.BCache )
+		self.app = Flask( __name__, static_url_path = "/cache/botanjs", static_folder = self.BCache )
 		self.app.jinja_env.add_extension( "compressinja.html.HtmlCompressor" )
 
 		self.app.add_url_rule( "/" , view_func = self.index )
@@ -33,12 +33,17 @@ class WebAPI:
 		self.app.add_url_rule( "/<mode>/<path:code>" , view_func = self.api_request )
 
 	def run( self, *args, **kwargs ):
+		JWork.buildClassMap( self.BRoot, self.BMap )
 		return self.app.run( *args, **kwargs )
 
 	def index( self ):
 		return "Hello, this is the BotanJS Service API.", 200
 
 	def api_request( self, mode, code ):
+
+		if mode == "rebuild":
+			JWork.buildClassMap.delay( self.BRoot, self.BMap )
+			return "OK", 200
 
 		if code == "zpayload":
 			code = request.args.get( "p" )
@@ -53,6 +58,8 @@ class WebAPI:
 			srvHandler = JCResv( JWork, self.BRoot, self.BMap, self.BCache )
 			return Response( srvHandler.getAPI( code, mode = mode ), mimetype = t )
 		except Exception as e:
+			if self.app.config[ "DEBUG" ]:
+				raise
 			return str(e), 404
 
 

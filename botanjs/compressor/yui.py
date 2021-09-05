@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from sys import platform
 from botanjs.config import Config as config
 
 COMPILER = config[ "BotanJS" ][ "YuiCompressor" ]
@@ -20,5 +21,8 @@ class Wrapper:
 		self.C = "java -jar " + COMPILER + " " + " ".join( COMPILER_OPTIONS )
 
 	def compress( self, loc ):
-		os.system( self.C + " " + loc + " -o " + loc[:-4] + ".c.css" )
 
+		if platform == "win32":
+			loc = loc.replace( "C:", "" ).replace( "\\\\", "/" )
+
+		os.system( self.C + " " + loc + " -o " + loc[:-4] + ".c.css" )

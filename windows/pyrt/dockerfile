@@ -1,0 +1,54 @@
+FROM mcr.microsoft.com/powershell:nanoserver-1809
+
+SHELL [ "pwsh", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';" ]
+
+RUN $url = 'https://www.python.org/ftp/python/3.7.6/python-3.7.6-embed-amd64.zip'; \
+    Write-host "downloading: $url"; \
+    [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12; \
+    New-Item -ItemType Directory /installer > $null ; \
+    Invoke-WebRequest -Uri $url -outfile /installer/Python.zip -verbose; \
+    Expand-Archive /installer/Python.zip -DestinationPath /Python; \
+    Move-Item /Python/python37._pth /Python/python37._pth.save
+
+### Begin workaround ###
+# Note that changing user on nanoserver is not recommended
+# See, https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-base-images#base-image-differences
+# But we are working around a bug introduced in the nanoserver image introduced in 1809
+USER ContainerAdministrator
+
+# This is basically the correct code except for the /M
+RUN setx PATH "$Env:Path`C:\Python`;C:\Python\Scripts`;" /M
+
+# We can't
+# USER ContainerUser
+### End workaround ###
+
+# if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
+ENV PYTHON_PIP_VERSION 21.2.4
+# https://github.com/pypa/get-pip
+ENV PYTHON_GET_PIP_URL https://github.com/pypa/get-pip/raw/4b85d3add912c861aea4a9feaae737a5b7b9cb1c/public/get-pip.py
+ENV PYTHON_GET_PIP_SHA256 ced8c71489cd46c511677bfe423f37eb88f08f29e9af36ef2679091ec7122d4f
+
+RUN Write-Host ('Downloading get-pip.py ({0}) ...' -f $env:PYTHON_GET_PIP_URL); \
+	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
+	Invoke-WebRequest -Uri $env:PYTHON_GET_PIP_URL -OutFile 'get-pip.py'; \
+	Write-Host ('Verifying sha256 ({0}) ...' -f $env:PYTHON_GET_PIP_SHA256); \
+	if ((Get-FileHash 'get-pip.py' -Algorithm sha256).Hash -ne $env:PYTHON_GET_PIP_SHA256) { \
+		Write-Host 'FAILED!'; \
+		exit 1; \
+	}; \
+	\
+	Write-Host ('Installing pip=={0} ...' -f $env:PYTHON_PIP_VERSION); \
+	python get-pip.py \
+		--disable-pip-version-check \
+		--no-cache-dir \
+		('pip=={0}' -f $env:PYTHON_PIP_VERSION) \
+	; \
+	Remove-Item get-pip.py -Force; \
+	\
+	Write-Host 'Verifying pip install ...'; \
+	pip --version; \
+	\
+	Write-Host 'Complete.'
+
+CMD [ "python.exe" ]

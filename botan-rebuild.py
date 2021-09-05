@@ -12,6 +12,6 @@ config["Paths"]["SiteRoot"] = SiteRoot;
 
 bmap = os.path.join( config["Paths"]["Cache"], "botanjs", "bmap.xml" )
 
-app.conf.update( BROKER_URL = config["BotanJS"]["CeleryBroker"] )
+app.conf.update( broker_url = config["BotanJS"]["CeleryBroker"] )
 
 JWork.buildClassMap.delay( config["BotanJS"]["SrcDir"], bmap )

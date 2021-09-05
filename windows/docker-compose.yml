@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  python:
+    build: pyrt
+    image: astrojs/pyrt-nanoserver-1809
+  jre:
+    build: jre 
+    image: astrojs/jre-nanoserver-1809
+  redis:
+    container_name: astrojsdev_redis
+    build: redis
+  web:
+    container_name: astrojsdev_app
+    image: astrojs/app
+    hostname: astrojs.default
+    build:
+      context: ../
+      dockerfile: windows/app/Dockerfile
+    command: [ "python", "main.py" ] # [ "ping", "127.0.0.1", "-n", "9999" ]
+    depends_on:
+      - redis
+    ports:
+      - 5000:5000
+    volumes:
+      - ../:C:/app
+      - cache:C:/app/cache
+  tasks:
+    container_name: astrojsdev_compiler
+    image: astrojs/app
+    command: [ "celery", "-A", "botanjs.service.jwork", "worker", "-l", "info", "--pool=solo" ]
+    depends_on:
+      - redis
+      - web
+    volumes:
+      - ../:C:/app
+      - cache:C:/app/cache
+
+volumes:
+  cache:
+  temp:
